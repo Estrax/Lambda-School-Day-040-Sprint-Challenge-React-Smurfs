@@ -3,7 +3,8 @@ import axios from 'axios';
 import './App.css';
 import SmurfForm from './components/SmurfForm';
 import Smurfs from './components/Smurfs';
-import { Switch, Route, NavLink } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
+import Navbar from './components/Header';
 
 class App extends Component {
   constructor(props) {
@@ -13,6 +14,8 @@ class App extends Component {
     };
 
     this.addSmurf = this.addSmurf.bind(this);
+    this.updateSmurf = this.updateSmurf.bind(this);
+    this.deleteSmurf = this.deleteSmurf.bind(this);
   }
 
   componentDidMount() {
@@ -42,19 +45,39 @@ class App extends Component {
         console.log(err);
       });
   }
+
+  updateSmurf(smurf) {
+    axios
+      .put(`http://localhost:3333/smurfs/${smurf.id}`, smurf)
+      .then(res => this.setState({
+        ...this.state,
+        smurfs: res.data
+      }))
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  deleteSmurf(id) {
+    axios
+      .delete(`http://localhost:3333/smurfs/${id}`)
+      .then(res => this.setState({
+        ...this.state,
+        smurfs: res.data
+      }))
+      .catch(err => {
+        console.log(err);
+      });
+  }
   // add any needed code to ensure that the smurfs collection exists on state and it has data coming from the server
   // Notice what your map function is looping over and returning inside of Smurfs.
   // You'll need to make sure you have the right properties on state and pass them down to props.
   render() {
     return (
       <div className="App">
-        <nav>
-          <NavLink activeClassName="active" to="/">Home</NavLink>
-          <NavLink activeClassName="active" to="/smurf-form">New smurf</NavLink>
-        </nav>
-
+        <Navbar />
         <Switch>
-          <Route path="/" exact render={(props) => <Smurfs smurfs={this.state.smurfs} />}/>
+          <Route path="/" exact render={(props) => <Smurfs smurfs={this.state.smurfs} deleteSmurf={this.deleteSmurf} />}/>
           <Route path="/smurf-form" exact render={(props) => <SmurfForm addSmurf={this.addSmurf} />}/>
         </Switch>
       </div>
