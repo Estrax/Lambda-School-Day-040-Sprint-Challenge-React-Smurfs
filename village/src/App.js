@@ -12,7 +12,8 @@ class App extends Component {
     super(props);
     this.state = {
       smurfs: [],
-      currentSmurf: undefined
+      currentSmurf: undefined,
+      show: false
     };
 
     this.addSmurf = this.addSmurf.bind(this);
@@ -76,7 +77,8 @@ class App extends Component {
   clickOnSmurf(smurf) {
     this.setState({
       ...this.state,
-      currentSmurf: smurf
+      currentSmurf: smurf,
+      show: true
     });
     this.props.history.push('/')
   }
@@ -88,9 +90,18 @@ class App extends Component {
       <div className="App">
         <Navbar />
         <Switch>
-          <Route path="/" exact render={(props) => <Smurfs smurfs={this.state.smurfs} deleteSmurf={this.deleteSmurf} clickOnSmurf={this.clickOnSmurf} />}/>
-          <Route path="/smurf-form" exact render={(props) => <SmurfForm addSmurf={this.addSmurf} />}/>
-          <Route path="/smurf/:id" exact render={(props) => <Smurf name={this.state.currentSmurf.name} id={this.state.currentSmurf.id} age={this.state.currentSmurf.age} height={this.state.currentSmurf.height} key={this.state.currentSmurf.id} deleteSmurf={this.deleteSmurf} />}/>
+          <Route path="/" exact render={(props) => <Smurfs smurfs={this.state.smurfs} clickOnSmurf={this.clickOnSmurf} />}/>
+          <Route path="/smurf-form" exact render={(props) => <SmurfForm smurf={{name: '', age: '', height: ''}} edit={false} submitForm={this.addSmurf} />}/>
+          <Route path="/smurf/:id" exact render={(props) => <Smurf 
+            name={this.state.currentSmurf.name}
+            id={this.state.currentSmurf.id}
+            age={this.state.currentSmurf.age}
+            height={this.state.currentSmurf.height}
+            key={this.state.currentSmurf.id}
+            deleteSmurf={this.deleteSmurf}
+            updateSmurf={this.updateSmurf}
+            show={this.state.show}
+          />}/>
         </Switch>
       </div>
     );
