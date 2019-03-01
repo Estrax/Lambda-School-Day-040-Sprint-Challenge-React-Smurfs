@@ -10,7 +10,7 @@ const Smurf = props => {
   }}>Delete</button> : " ";
 
   const editForm = props.show ? <div>
-    <h1>Edit smurf</h1>
+    <h4>Edit smurf</h4>
     <SmurfForm 
       edit={true} submitForm={props.updateSmurf} smurf={{id: props.id, name: props.name, age: props.age, height: props.height}}
     />

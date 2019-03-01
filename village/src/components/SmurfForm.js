@@ -43,7 +43,7 @@ class SmurfForm extends Component {
 
   render() {
     return (
-      <div className="SmurfForm">
+      <div className="SmurfForm" style={{border: !this.props.edit ? "1px solid blue" : 'none'}}>
         <form onSubmit={this.addSmurf}>
           <input
             onChange={this.handleInputChange}
