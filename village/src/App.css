@@ -8,12 +8,16 @@
 
 nav {
   display: block;
-  margin-bottom: 50px;
+  margin: 50px 0;
 }
 
 nav a {
   text-decoration: none;
   margin: 5%;
+  background: blue;
+  color: white;
+  border-radius: 25px;
+  padding: 20px;
 }
 
 .active {

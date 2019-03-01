@@ -5,7 +5,7 @@ import SmurfForm from './components/SmurfForm';
 import Smurfs from './components/Smurfs';
 import Smurf from './components/Smurf';
 import { Switch, Route, withRouter } from 'react-router-dom';
-import Navbar from './components/Header';
+import Navbar from './components/Navbar';
 
 class App extends Component {
   constructor(props) {
