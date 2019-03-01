@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 class SmurfForm extends Component {
   constructor(props) {
@@ -23,6 +24,8 @@ class SmurfForm extends Component {
       age: '',
       height: ''
     });
+
+    this.props.history.push('/');
   }
 
   handleInputChange = e => {
@@ -58,4 +61,4 @@ class SmurfForm extends Component {
   }
 }
 
-export default SmurfForm;
+export default withRouter(SmurfForm);
