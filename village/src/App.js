@@ -10,6 +10,8 @@ class App extends Component {
     this.state = {
       smurfs: [],
     };
+
+    this.addSmurf = this.addSmurf.bind(this);
   }
 
   componentDidMount() {
@@ -18,8 +20,26 @@ class App extends Component {
       .then(res => this.setState({
         ...this.state,
         smurfs: res.data
-      }));
+      }))
+      .catch(err => {
+        console.log(err);
+        this.setState({
+          ...this.state,
+          smurfs: []
+        })
+      });
+  }
 
+  addSmurf(smurf) {
+    axios
+      .post('http://localhost:3333/smurfs', smurf)
+      .then(res => this.setState({
+        ...this.state,
+        smurfs: res.data
+      }))
+      .catch(err => {
+        console.log(err);
+      });
   }
   // add any needed code to ensure that the smurfs collection exists on state and it has data coming from the server
   // Notice what your map function is looping over and returning inside of Smurfs.
@@ -27,7 +47,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <SmurfForm />
+        <SmurfForm addSmurf={this.addSmurf} />
         <Smurfs smurfs={this.state.smurfs} />
       </div>
     );
