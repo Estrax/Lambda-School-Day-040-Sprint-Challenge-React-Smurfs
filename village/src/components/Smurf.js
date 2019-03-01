@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 const Smurf = props => {
   return (
@@ -6,7 +7,10 @@ const Smurf = props => {
       <h3>{props.name}</h3>
       <strong>{props.height} tall</strong>
       <p>{props.age} smurf years old</p>
-      <button onClick={() => props.deleteSmurf(props.id)}>Delete</button>
+      <button onClick={() => {
+        props.deleteSmurf(props.id);
+        props.history.push('/');
+      }}>Delete</button>
     </div>
   );
 };
@@ -17,5 +21,5 @@ Smurf.defaultProps = {
   age: ''
 };
 
-export default Smurf;
+export default withRouter(Smurf);
 

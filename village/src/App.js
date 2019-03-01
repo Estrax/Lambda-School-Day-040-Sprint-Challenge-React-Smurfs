@@ -3,7 +3,8 @@ import axios from 'axios';
 import './App.css';
 import SmurfForm from './components/SmurfForm';
 import Smurfs from './components/Smurfs';
-import { Switch, Route } from 'react-router-dom';
+import Smurf from './components/Smurf';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import Navbar from './components/Header';
 
 class App extends Component {
@@ -11,11 +12,13 @@ class App extends Component {
     super(props);
     this.state = {
       smurfs: [],
+      currentSmurf: undefined
     };
 
     this.addSmurf = this.addSmurf.bind(this);
     this.updateSmurf = this.updateSmurf.bind(this);
     this.deleteSmurf = this.deleteSmurf.bind(this);
+    this.clickOnSmurf = this.clickOnSmurf.bind(this);
   }
 
   componentDidMount() {
@@ -69,6 +72,14 @@ class App extends Component {
         console.log(err);
       });
   }
+
+  clickOnSmurf(smurf) {
+    this.setState({
+      ...this.state,
+      currentSmurf: smurf
+    });
+    this.props.history.push('/')
+  }
   // add any needed code to ensure that the smurfs collection exists on state and it has data coming from the server
   // Notice what your map function is looping over and returning inside of Smurfs.
   // You'll need to make sure you have the right properties on state and pass them down to props.
@@ -77,12 +88,13 @@ class App extends Component {
       <div className="App">
         <Navbar />
         <Switch>
-          <Route path="/" exact render={(props) => <Smurfs smurfs={this.state.smurfs} deleteSmurf={this.deleteSmurf} />}/>
+          <Route path="/" exact render={(props) => <Smurfs smurfs={this.state.smurfs} deleteSmurf={this.deleteSmurf} clickOnSmurf={this.clickOnSmurf} />}/>
           <Route path="/smurf-form" exact render={(props) => <SmurfForm addSmurf={this.addSmurf} />}/>
+          <Route path="/smurf/:id" exact render={(props) => <Smurf name={this.state.currentSmurf.name} id={this.state.currentSmurf.id} age={this.state.currentSmurf.age} height={this.state.currentSmurf.height} key={this.state.currentSmurf.id} deleteSmurf={this.deleteSmurf} />}/>
         </Switch>
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
